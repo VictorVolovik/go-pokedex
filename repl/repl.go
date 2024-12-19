@@ -20,8 +20,8 @@ func Repl() error {
 			if len(words) == 0 {
 				continue
 			}
-			command := words[0]
-			fmt.Printf("Your command was: %s\n", command)
+			userCommand := words[0]
+			handleCommand(userCommand)
 		} else {
 			err := scnanner.Err()
 			if err != nil {
@@ -36,4 +36,34 @@ func cleanInput(text string) []string {
 	lowerCased := strings.ToLower(text)
 	words := strings.Fields(lowerCased)
 	return words
+}
+
+// Get a map of commands
+func getCommands() map[string]cliCommand {
+	return map[string]cliCommand{
+		"exit": {
+			name:        "exit",
+			description: "Exit the Pokedex",
+			callback:    commandExit,
+		},
+		"help": {
+			name:        "help",
+			description: "Displays a help message",
+			callback:    commandHelp,
+		},
+	}
+}
+
+// Try to execute user's command
+func handleCommand(userCommand string) {
+	command, exists := getCommands()[userCommand]
+	if !exists {
+		fmt.Println("Unknown command")
+		return
+	}
+
+	err := command.callback()
+	if err != nil {
+		fmt.Println(err)
+	}
 }

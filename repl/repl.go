@@ -9,6 +9,7 @@ import (
 
 func Repl() error {
 	scnanner := bufio.NewScanner(os.Stdin)
+	cfg := config{"", ""}
 
 	for {
 		fmt.Print("Pokedex > ")
@@ -21,7 +22,7 @@ func Repl() error {
 				continue
 			}
 			userCommand := words[0]
-			handleCommand(userCommand)
+			handleCommand(userCommand, &cfg)
 		} else {
 			err := scnanner.Err()
 			if err != nil {
@@ -51,18 +52,28 @@ func getCommands() map[string]cliCommand {
 			description: "Displays a help message",
 			callback:    commandHelp,
 		},
+		"map": {
+			name:        "map",
+			description: "Get the next page of locations",
+			callback:    commandMapf,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Get the previous page of locations",
+			callback:    commandMapb,
+		},
 	}
 }
 
 // Try to execute user's command
-func handleCommand(userCommand string) {
+func handleCommand(userCommand string, cfg *config) {
 	command, exists := getCommands()[userCommand]
 	if !exists {
 		fmt.Println("Unknown command")
 		return
 	}
 
-	err := command.callback()
+	err := command.callback(cfg)
 	if err != nil {
 		fmt.Println(err)
 	}

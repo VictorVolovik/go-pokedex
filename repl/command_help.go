@@ -2,8 +2,8 @@ package repl
 
 import "fmt"
 
-// Display help information
-func commandHelp() error {
+// Display a help information
+func commandHelp(cfg *config) error {
 	fmt.Println("Usage:")
 	fmt.Println()
 

@@ -7,21 +7,37 @@ import (
 	"net/http"
 )
 
-func GetLocationAreas(queryUrl string) (LocationAreas, error) {
+func (c *Client) GetLocationAreas(queryUrl string) (LocationAreas, error) {
 	reqUrl := PokedexApiUrl + LocationAreaEndpoint
 	if len(queryUrl) > 0 {
 		reqUrl += "?" + queryUrl
 	}
 
-	res, err := http.Get(reqUrl)
-	if err != nil {
-		return LocationAreas{}, fmt.Errorf("error  creating request: %w", err)
-	}
-	defer res.Body.Close()
+	var (
+		data []byte
+		err  error
+	)
 
-	data, err := io.ReadAll(res.Body)
-	if err != nil {
-		return LocationAreas{}, fmt.Errorf("error reading response body: %w", err)
+	if entry, exists := c.cache.Get(reqUrl); exists {
+		data = entry
+	} else {
+		req, err := http.NewRequest("GET", reqUrl, nil)
+		if err != nil {
+			return LocationAreas{}, fmt.Errorf("error creating request: %w", err)
+		}
+
+		res, err := c.httpClient.Do(req)
+		if err != nil {
+			return LocationAreas{}, fmt.Errorf("error making request: %w", err)
+		}
+		defer res.Body.Close()
+
+		data, err = io.ReadAll(res.Body)
+		if err != nil {
+			return LocationAreas{}, fmt.Errorf("error reading response body: %w", err)
+		}
+
+		c.cache.Add(reqUrl, data)
 	}
 
 	var locationAreas LocationAreas

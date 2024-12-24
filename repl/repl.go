@@ -5,11 +5,15 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"VictorVolovik/go-pokedex/api"
 )
 
-func Repl() error {
+func Repl(apiClient api.Client) error {
 	scnanner := bufio.NewScanner(os.Stdin)
-	cfg := config{"", ""}
+	cfg := &config{
+		apiClient: apiClient,
+	}
 
 	for {
 		fmt.Print("Pokedex > ")
@@ -22,7 +26,7 @@ func Repl() error {
 				continue
 			}
 			userCommand := words[0]
-			handleCommand(userCommand, &cfg)
+			handleCommand(userCommand, cfg)
 		} else {
 			err := scnanner.Err()
 			if err != nil {

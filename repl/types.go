@@ -1,5 +1,9 @@
 package repl
 
+import (
+	"VictorVolovik/go-pokedex/api"
+)
+
 type cliCommand struct {
 	name        string
 	description string
@@ -7,6 +11,7 @@ type cliCommand struct {
 }
 
 type config struct {
-	Next     string
-	Previous string
+	nextQuery string
+	preQuery  string
+	apiClient api.Client
 }

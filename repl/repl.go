@@ -26,7 +26,8 @@ func Repl(apiClient api.Client) error {
 				continue
 			}
 			userCommand := words[0]
-			handleCommand(userCommand, cfg)
+			userParams := words[1:]
+			handleCommand(userCommand, userParams, cfg)
 		} else {
 			err := scnanner.Err()
 			if err != nil {
@@ -66,18 +67,23 @@ func getCommands() map[string]cliCommand {
 			description: "Get the previous page of locations",
 			callback:    commandMapb,
 		},
+		"explore": {
+			name:        "explore <location_name>",
+			description: "List all pokemons in specified location",
+			callback:    commandExplore,
+		},
 	}
 }
 
 // Try to execute user's command
-func handleCommand(userCommand string, cfg *config) {
+func handleCommand(userCommand string, userParams []string, cfg *config) {
 	command, exists := getCommands()[userCommand]
 	if !exists {
 		fmt.Println("Unknown command")
 		return
 	}
 
-	err := command.callback(cfg)
+	err := command.callback(cfg, userParams...)
 	if err != nil {
 		fmt.Println(err)
 	}

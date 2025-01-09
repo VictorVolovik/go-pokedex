@@ -8,10 +8,10 @@ import (
 )
 
 // Get the next page of locations
-func commandMapf(cfg *config) error {
+func commandMapf(cfg *config, params ...string) error {
 	locationAreas, err := cfg.apiClient.GetLocationAreas(cfg.nextQuery)
 	if err != nil {
-		return fmt.Errorf("error getting location areas %w", err)
+		return fmt.Errorf("error getting location areas: %w", err)
 	}
 
 	err = updateNextAndPrevUrls(&locationAreas, cfg)
@@ -27,10 +27,10 @@ func commandMapf(cfg *config) error {
 }
 
 // Get the previous page of locations
-func commandMapb(cfg *config) error {
+func commandMapb(cfg *config, params ...string) error {
 	locationAreas, err := cfg.apiClient.GetLocationAreas(cfg.preQuery)
 	if err != nil {
-		return fmt.Errorf("error getting location areas %w", err)
+		return fmt.Errorf("error getting location areas: %w", err)
 	}
 
 	updateNextAndPrevUrls(&locationAreas, cfg)

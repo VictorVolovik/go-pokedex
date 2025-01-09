@@ -15,4 +15,3 @@ type cacheEntry struct {
 	createdAt time.Time
 	val       []byte
 }
-

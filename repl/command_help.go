@@ -3,7 +3,7 @@ package repl
 import "fmt"
 
 // Display a help information
-func commandHelp(cfg *config) error {
+func commandHelp(cfg *config, params ...string) error {
 	fmt.Println("Usage:")
 	fmt.Println()
 

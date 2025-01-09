@@ -2,6 +2,7 @@ package repl
 
 import (
 	"VictorVolovik/go-pokedex/api"
+	"VictorVolovik/go-pokedex/pokedex"
 )
 
 type cliCommand struct {
@@ -12,6 +13,7 @@ type cliCommand struct {
 
 type config struct {
 	nextQuery string
-	preQuery  string
+	prevQuery string
 	apiClient api.Client
+	pokedex   pokedex.Pokedex
 }

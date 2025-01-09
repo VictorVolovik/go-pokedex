@@ -6,7 +6,6 @@ import (
 	"math/rand"
 
 	"VictorVolovik/go-pokedex/api"
-	"VictorVolovik/go-pokedex/pokedex"
 )
 
 func commandCatch(cfg *config, params ...string) error {
@@ -21,13 +20,14 @@ func commandCatch(cfg *config, params ...string) error {
 		return fmt.Errorf("error getting pokemon details: %w", err)
 	}
 
-	fmt.Printf("Throwing a Pokeball at %s\n", pokemonDetails.Name)
+	fmt.Printf("Throwing a Pokeball at %s...\n", pokemonDetails.Name)
 
 	wasCaught := catchPokemon(&pokemonDetails)
 
 	if wasCaught {
 		fmt.Printf("%s was caught!\n", pokemonDetails.Name)
-		pokedex.UsersPokedex.RecordPokemon(pokemonDetails)
+		cfg.pokedex.RecordPokemon(pokemonDetails)
+		fmt.Printf("You may now inspect it with the inspect command.\n")
 	} else {
 		fmt.Printf("%s escaped!\n", pokemonDetails.Name)
 	}

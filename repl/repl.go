@@ -7,12 +7,14 @@ import (
 	"strings"
 
 	"VictorVolovik/go-pokedex/api"
+	"VictorVolovik/go-pokedex/pokedex"
 )
 
 func Repl(apiClient api.Client) error {
 	scnanner := bufio.NewScanner(os.Stdin)
 	cfg := &config{
 		apiClient: apiClient,
+		pokedex:   *pokedex.UsersPokedex,
 	}
 
 	for {
@@ -76,6 +78,11 @@ func getCommands() map[string]cliCommand {
 			name:        "catch <pokemon id or name>",
 			description: "Attempt to catch specified pokemon",
 			callback:    commandCatch,
+		},
+		"inspect": {
+			name:        "inspect <pokemon name>",
+			description: "Check caught pokemon details",
+			callback:    commandInspect,
 		},
 	}
 }

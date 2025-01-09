@@ -28,7 +28,7 @@ func commandMapf(cfg *config, params ...string) error {
 
 // Get the previous page of locations
 func commandMapb(cfg *config, params ...string) error {
-	locationAreas, err := cfg.apiClient.GetLocationAreas(cfg.preQuery)
+	locationAreas, err := cfg.apiClient.GetLocationAreas(cfg.prevQuery)
 	if err != nil {
 		return fmt.Errorf("error getting location areas, %w", err)
 	}
@@ -59,7 +59,7 @@ func updateNextAndPrevUrls(locationAreas *api.LocationAreas, cfg *config) error 
 		if err != nil {
 			return fmt.Errorf("Error parsing previous URL: %w", err)
 		}
-		cfg.preQuery = parsedURL.RawQuery
+		cfg.prevQuery = parsedURL.RawQuery
 	}
 
 	return nil

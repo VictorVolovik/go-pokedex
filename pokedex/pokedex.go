@@ -1,6 +1,8 @@
 package pokedex
 
 import (
+	"fmt"
+
 	"VictorVolovik/go-pokedex/api"
 )
 
@@ -16,13 +18,13 @@ func NewPokedex() *Pokedex {
 	}
 }
 
-func (pkdx *Pokedex) CheckPokemon(pokemonName string) api.PokemonDetails {
+func (pkdx *Pokedex) CheckPokemon(pokemonName string) (api.PokemonDetails, error) {
 	pokemon, ok := pkdx.pokemons[pokemonName]
 	if !ok {
-		return api.PokemonDetails{}
+		return api.PokemonDetails{}, fmt.Errorf("no pokemon found")
 	}
 
-	return pokemon
+	return pokemon, nil
 }
 
 func (pkdx *Pokedex) RecordPokemon(p api.PokemonDetails) {

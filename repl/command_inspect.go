@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// Show caught Pokemon details
 func commandInspect(cfg *config, params ...string) error {
 	if len(params) == 0 {
 		return fmt.Errorf("Unspecified pokemon\n")

@@ -2,6 +2,7 @@ package repl
 
 import "fmt"
 
+// Display Pokemon found in specifig location
 func commandExplore(cfg *config, params ...string) error {
 	if len(params) == 0 {
 		return fmt.Errorf("Unspecified location area\n")

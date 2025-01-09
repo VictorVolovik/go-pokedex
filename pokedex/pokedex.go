@@ -7,19 +7,19 @@ import (
 )
 
 type Pokedex struct {
-	pokemons map[string]api.PokemonDetails
+	records map[string]api.PokemonDetails
 }
 
 var UsersPokedex = NewPokedex()
 
 func NewPokedex() *Pokedex {
 	return &Pokedex{
-		pokemons: make(map[string]api.PokemonDetails),
+		records: make(map[string]api.PokemonDetails),
 	}
 }
 
 func (pkdx *Pokedex) CheckPokemon(pokemonName string) (api.PokemonDetails, error) {
-	pokemon, ok := pkdx.pokemons[pokemonName]
+	pokemon, ok := pkdx.records[pokemonName]
 	if !ok {
 		return api.PokemonDetails{}, fmt.Errorf("no pokemon found")
 	}
@@ -28,5 +28,17 @@ func (pkdx *Pokedex) CheckPokemon(pokemonName string) (api.PokemonDetails, error
 }
 
 func (pkdx *Pokedex) RecordPokemon(p api.PokemonDetails) {
-	pkdx.pokemons[p.Name] = p
+	pkdx.records[p.Name] = p
+}
+
+func (pkdx *Pokedex) GetPokemonNames() []string {
+	names := make([]string, len(pkdx.records))
+
+	i := 0
+	for _, pokemonDetails := range pkdx.records {
+		names[i] = pokemonDetails.Name
+		i++
+	}
+
+	return names
 }

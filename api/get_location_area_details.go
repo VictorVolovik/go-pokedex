@@ -8,10 +8,7 @@ import (
 )
 
 func (c *Client) GetLocationAreaDetails(areaIdOrName string) (LocationAreaDetails, error) {
-	reqUrl := PokedexApiUrl + LocationAreaEndpoint
-	if len(areaIdOrName) > 0 {
-		reqUrl += "/" + areaIdOrName
-	}
+	reqUrl := PokedexApiUrl + LocationAreaEndpoint + "/" + areaIdOrName
 
 	var (
 		data []byte
@@ -31,6 +28,14 @@ func (c *Client) GetLocationAreaDetails(areaIdOrName string) (LocationAreaDetail
 			return LocationAreaDetails{}, fmt.Errorf("error making request: %w", err)
 		}
 		defer res.Body.Close()
+
+		if res.StatusCode == 404 {
+			return LocationAreaDetails{}, fmt.Errorf("location not found")
+		}
+
+		if res.StatusCode != 200 {
+			return LocationAreaDetails{}, fmt.Errorf("not OK HTTP status: %s", res.Status)
+		}
 
 		data, err = io.ReadAll(res.Body)
 		if err != nil {

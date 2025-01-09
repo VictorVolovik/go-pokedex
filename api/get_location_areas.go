@@ -32,6 +32,10 @@ func (c *Client) GetLocationAreas(queryUrl string) (LocationAreas, error) {
 		}
 		defer res.Body.Close()
 
+		if res.StatusCode != 200 {
+			return LocationAreas{}, fmt.Errorf("not OK HTTP status: %s", res.Status)
+		}
+
 		data, err = io.ReadAll(res.Body)
 		if err != nil {
 			return LocationAreas{}, fmt.Errorf("error reading response body: %w", err)

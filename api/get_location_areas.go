@@ -7,10 +7,14 @@ import (
 	"net/http"
 )
 
+const DefaultQueryUrl = "offset=0&limit=20"
+
 func (c *Client) GetLocationAreas(queryUrl string) (LocationAreas, error) {
 	reqUrl := PokedexApiUrl + LocationAreaEndpoint
 	if len(queryUrl) > 0 {
 		reqUrl += "?" + queryUrl
+	} else {
+		reqUrl += "?" + DefaultQueryUrl
 	}
 
 	var (

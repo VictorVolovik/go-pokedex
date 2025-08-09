@@ -2,6 +2,13 @@
 
 A CLI tool built following Boot.Dev's [Build a Pokedex in Go](https://www.boot.dev/courses/build-pokedex-cli-golang), using the [PokeAPI](https://pokeapi.co/).
 
+## Features
+
+- Browse Pokemon locations
+- Catch Pokemon with probability-based mechanics
+- Inspect caught Pokemon details
+- Maintain a personal Pokedex collection
+
 ## Prerequisites
 
 - Go version 1.23.4 or later installed
@@ -26,4 +33,3 @@ A CLI tool built following Boot.Dev's [Build a Pokedex in Go](https://www.boot.d
 ## Notes
 
 This project demonstrates foundational Go concepts such as working with APIs, building CLI tools, and handling user input effectively. It is a learning exercise and a fun way to explore Go while interacting with the PokeAPI.
-
